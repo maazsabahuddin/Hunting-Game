@@ -31,6 +31,13 @@ def story_opinion_message():
     print("=" * 73)
 
 
+def story_end_message():
+    print("\n")
+    print("="*65)
+    print(f"{'='}\t\t\t\t\t\t\t GAME ENDS \t\t\t\t\t\t\t{'='}")
+    print("=" * 65)
+
+
 def start_of_story():
     if LINE_BY_LINE:
         for key in config.INITIAL_MESSAGE:

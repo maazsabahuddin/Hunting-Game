@@ -18,7 +18,7 @@ import api
 
 # Player's GAIN HEALTH Parameters
 RECHARGE_HEALTH = 50
-RECHARGE_WATER = 5
+RECHARGE_COFFEE = 5
 
 # Tiger DAMAGES Parameters
 FIRE_WEAPON_DAMAGE = 80
@@ -33,7 +33,7 @@ RIVER_SIDE = "rs"
 VALLEY = "va"
 
 PLAYER_HEALTH = 100
-PLAYER_TOOLS = ["Knife", "Water"]
+PLAYER_TOOLS = ["Knife", "Coffee"]
 TIGER_HEALTH = 100
 
 
@@ -45,10 +45,10 @@ def greeting_message(subject, _object) -> None:
     :return:
     """
     if subject == "Valley area":
-        print(f"\nYou have reached {subject}, ready to fight with tiger")
+        print(f"\nCongratulations! You have reached {subject}, ready to fight with tiger")
     else:
         PLAYER_TOOLS.append(_object)
-        print(f"\nYou have reached {subject}. {_object} is available here.")
+        print(f"\nCongratulations! You have reached {subject}. {_object} is available here.")
 
 
 def items_message():
@@ -65,22 +65,22 @@ def fight_message():
     This function will only display the fight message
     :return:
     """
-    print("\n\t\t\tFight will start in 5 seconds\t\t\t")
+    print("\n\t\t\tFight will begin in 5 seconds\t\t\t")
     time.sleep(1)
-    print("\t\t\tFight will start in 4 seconds\t\t\t")
+    print("\t\t\tFight will begin in 4 seconds\t\t\t")
     time.sleep(1)
-    print("\t\t\tFight will start in 3 seconds\t\t\t")
+    print("\t\t\tFight will begin in 3 seconds\t\t\t")
     time.sleep(1)
-    print("\t\t\tFight will start in 2 seconds\t\t\t")
+    print("\t\t\tFight will begin in 2 seconds\t\t\t")
     time.sleep(1)
-    print("\t\t\tFight will start in 1 second\t\t\t")
+    print("\t\t\tFight will begin in 1 second\t\t\t")
     time.sleep(1)
-    print("\nFight starts. Player will attack first.")
+    print("\nFight begin. Player will attack first.")
     print("\nPlayer can choose from following options:\n\n"
           "Press HK to use Health Kit. (Can use only one time)\n"
           "Press FW to use Fire Weapon. (Can use only one time)\n"
           "Press KN to use Knife (Can use multiple times)\n"
-          "Press DW to Drink Water (Can use multiple times)")
+          "Press DC to Drink Coffee (Can use multiple times)")
 
 
 def fight_health_decision(user_choice):
@@ -108,8 +108,11 @@ def fight_health_decision(user_choice):
         TIGER_HEALTH -= FIRE_WEAPON_DAMAGE
     elif user_choice == "KN":
         TIGER_HEALTH -= KNIFE_DAMAGE
-    elif user_choice == "DW":
-        PLAYER_HEALTH += RECHARGE_WATER
+    elif user_choice == "DC":
+        # Whenever the user drinks the coffee we will call the Coffee API.
+        api.get_coffee()
+        print(f"Player just drank Coffee and boosted by {RECHARGE_COFFEE} points")
+        PLAYER_HEALTH += RECHARGE_COFFEE
 
 
 def update_player_health():
@@ -139,7 +142,7 @@ def fight_with_tiger():
     """
     global PLAYER_HEALTH
     player_hit = str(input("\nEnter your choice: ")).upper()
-    while player_hit not in ["HK", "FW", "KN", "DW"]:
+    while player_hit not in ["HK", "FW", "KN", "DC"]:
         print("\nInvalid Choice. Please try again!")
         player_hit = str(input("\nEnter your choice: ")).upper()
 
@@ -160,7 +163,7 @@ def check_holiday(date):
     holidays = api.get_holidays(country="CA", year="2022")
     for holiday in holidays:
         if holiday['date'] != date:
-            pass
+            continue
         return True, holiday
     return False, None
 
@@ -197,7 +200,6 @@ if __name__ == "__main__":
         time.sleep(2)
 
         print("\nLets check for a holiday..")
-        print("\nCalling Holiday API..")
         _, data = check_holiday(date=str(currentDateAndTime.date()))
         if _:
             print(f"\nOhh!! Today is {data['name']}.")
@@ -264,15 +266,17 @@ if __name__ == "__main__":
         print(f"Tiger health: {TIGER_HEALTH if TIGER_HEALTH > 0 else 0}")
 
         if PLAYER_HEALTH > TIGER_HEALTH or (PLAYER_HEALTH == 0 and PLAYER_HEALTH == TIGER_HEALTH):
-            print("\nPlayer wins (Get 1000 coins in wallet).") \
+            print("\nHurray!! Player wins (Get 1000 coins in wallet).") \
                 if 6 < currentDateAndTime.hour < 18 else \
-                print("\nPlayer wins (Get 1500 coins in wallet).")
+                print("\nHurray!! Player wins (Get 1500 coins in wallet).")
         else:
             print("\nPlayer loose.")
+
+        view.story_end_message()
+        time.sleep(2)
 
         print("\nDo you want to play the game again? Press any key to continue and 'q' to quit ")
         user_consent = str(input("Enter your choice: ")).upper()
 
     print("\nGame QUIT. Please come back again and earn points!\n")
     os.abort()
-

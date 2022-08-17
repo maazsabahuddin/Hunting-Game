@@ -1,3 +1,5 @@
+import time
+
 import requests
 
 CALENDER_API_KEY = "6ee4ea0704bf77c021818f6f3061db60a36c04fa"
@@ -12,6 +14,10 @@ def get_holidays(country="CA", year="2020"):
     :param year:
     :return:
     """
+
+    print("\nCalling Holiday API..")
+    time.sleep(1)
+
     url = f"https://calendarific.com/api/v2/holidays?&api_key={CALENDER_API_KEY}&country={country}&year={year}"
     response = requests.get(url)
     response_holidays = response.json()['response']['holidays']
@@ -26,11 +32,13 @@ def get_holidays(country="CA", year="2020"):
     return _holidays
 
 
-def coffee():
+def get_coffee():
     """
     This function will return the coffee image.
     :return:
     """
+    print("\nCalling Coffee API..")
+    time.sleep(1)
     response = requests.get(COFFEE_API_URL)
     data = response.json()
     return data['file']
@@ -42,6 +50,8 @@ def weather_city(city="Sudbury"):
     :param city:
     :return:
     """
+    print("\nCalling Weather API..")
+    time.sleep(1)
     # URL
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={WEATHER_API_KEY}'
 
@@ -67,6 +77,8 @@ def sunset_and_sunrise_time():
     This function will tell you about the sunrise and sunset time of the specified region
     :return:
     """
+    print("\nCalling Sunrise/Sunset timing API..")
+    time.sleep(1)
     # Get the data from the aPI
     response = requests.get('http://api.sunrise-sunset.org/json?lat=46.522099&lng=-80.953033')
     # response = requests.get('http://api.sunrise-sunset.org/json?lat=24.8607&lng=67.0011')
@@ -84,7 +96,8 @@ def sunset_and_sunrise_time():
 try:
     # cup_of_coffee = coffee()
     # holidays = get_holidays(country="CA", year="2022")
-    weather = weather_city()
+    # weather = weather_city()
     # time = sunset_and_sunrise_time()
+    pass
 except Exception as e:
     print(str(e))
