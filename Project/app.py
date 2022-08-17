@@ -276,7 +276,7 @@ if __name__ == "__main__":
             print("\nDo you want to convert your coins into CAD? Press any key to continue  and 'q' to quit ")
             respond = str(input("Enter your choice: ")).upper()
             if respond not in ["Q", "QUIT"]:
-                print(f"\nThe approximately {coins} coins value is around ${api.currency_convert(coins=coins)}.")
+                print(f"\nThe approximate value {coins} coins is around ${api.currency_convert(coins=coins)}.")
         else:
             print("\nPlayer loose.")
 
