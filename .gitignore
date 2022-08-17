@@ -2,6 +2,7 @@
 venv
 ANA-1001
 LeetCode
+Project/data.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -6,6 +6,7 @@ Mid-Term Project - Python
 ANA-1001 Programming For Analytics
 """
 # Python imports
+import json
 import random
 import time
 import os
@@ -16,15 +17,25 @@ import view
 import api
 
 
+_WRITE_TO_FILE = {}
+
 # Player's GAIN HEALTH Parameters
 RECHARGE_HEALTH = 50
 RECHARGE_COFFEE = 5
+_WRITE_TO_FILE.update({
+    'RECHARGE_HEALTH': RECHARGE_HEALTH,
+    'RECHARGE_COFFEE': RECHARGE_COFFEE
+})
 
 # Tiger DAMAGES Parameters
 FIRE_WEAPON_DAMAGE = 80
 MAP_OF_VALLEY_DAMAGE = 30
 KNIFE_DAMAGE = 5
-
+_WRITE_TO_FILE.update({
+    'FIRE_WEAPON_DAMAGE': FIRE_WEAPON_DAMAGE,
+    'MAP_OF_VALLEY_DAMAGE': MAP_OF_VALLEY_DAMAGE,
+    'KNIFE_DAMAGE': KNIFE_DAMAGE
+})
 
 # THESE ARE THE SHORT CONSTANTS THAT WE USED SO FAR.
 HILLTOP = "ht"
@@ -35,6 +46,10 @@ VALLEY = "va"
 PLAYER_HEALTH = 100
 PLAYER_TOOLS = ["Knife", "Coffee"]
 TIGER_HEALTH = 100
+_WRITE_TO_FILE.update({
+    'INITIAL_PLAYER_HEALTH': PLAYER_HEALTH,
+    'INITIAL_TIGER_HEALTH': TIGER_HEALTH
+})
 
 
 def greeting_message(subject, _object) -> None:
@@ -45,10 +60,15 @@ def greeting_message(subject, _object) -> None:
     :return:
     """
     if subject == "Valley area":
-        print(f"\nCongratulations! You have reached {subject}, ready to fight with tiger")
+        msg = f"\nCongratulations! You have reached {subject}, ready to fight with tiger"
     else:
         PLAYER_TOOLS.append(_object)
-        print(f"\nCongratulations! You have reached {subject}. {_object} is available here.")
+        msg = f"\nCongratulations! You have reached {subject}. {_object} is available here."
+
+    print(msg)
+    _WRITE_TO_FILE.update({
+        subject: msg,
+    })
 
 
 def items_message():
@@ -190,6 +210,15 @@ def display_sunrise_sunset_timings():
     
 if __name__ == "__main__":
 
+    username = str(input("\nEnter username: ")).lower()
+    password = str(input("Enter password: ")).lower()
+
+    if view.validate_user(username=username, password=password):
+        print("Login Successful!")
+    else:
+        print("Invalid Credentials. GAME QUIT")
+        os.abort()
+
     currentDateAndTime = datetime.now()
     print("\nDo you want to play the game? Press any key to continue and 'q' to quit ")
     user_consent = str(input("Enter your choice: ")).upper()
@@ -280,10 +309,20 @@ if __name__ == "__main__":
         else:
             print("\nPlayer loose.")
 
+        _WRITE_TO_FILE.update({
+            'FINAL_PLAYER_HEALTH': PLAYER_HEALTH,
+            'FINAL_TIGER_HEALTH': TIGER_HEALTH
+        })
+        json_string = json.dumps(_WRITE_TO_FILE)
+        with open('data.json', 'w') as outfile:
+            outfile.write(json_string)
+
         view.story_end_message()
         time.sleep(2)
 
         print("\nDo you want to play the game again? Press any key to continue and 'q' to quit")
+        PLAYER_HEALTH = 100
+        TIGER_HEALTH = 100
         user_consent = str(input("Enter your choice: ")).upper()
 
     print("\nGame QUIT. Please come back again and earn points!\n")

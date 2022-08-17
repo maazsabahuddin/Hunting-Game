@@ -3,9 +3,10 @@ import config
 
 # Python imports
 import time
+import json
 
 
-LINE_BY_LINE = False
+LINE_BY_LINE = True
 
 
 def map_view():
@@ -73,3 +74,17 @@ def location_choice():
             time.sleep(0.035)
     else:
         print(config.LOCATION_MESSAGE)
+
+
+def validate_user(username, password):
+    """
+    This function will validate the username and password.
+    :param username:
+    :param password:
+    :return:
+    """
+    f = open("user/user.json", "r")
+    data = json.load(f)
+    if username == data['username'] and password == data['password']:
+        return True
+    return False
