@@ -93,11 +93,38 @@ def sunset_and_sunrise_time():
     return {'sunrise': sunrise, 'sunset': sunset}
 
 
+def currency_convert(coins):
+    """
+    This API will convert the coin value to $
+    1 coin worth $1000
+    :param coins:
+    :return:
+    """
+    # URL
+    url = "https://currency-converter5.p.rapidapi.com/currency/convert"
+
+    # QUERY STRING TO API
+    querystring = {"format": "json", "from": "COIN", "to": "CAD", "amount": str(coins)}
+
+    headers = {
+        "X-RapidAPI-Key": "a90a556334mshdb8de176777bc97p179721jsn2d01896d03ed",
+        "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    if type(response) is str:
+        return round(coins*1000, 2)
+
+    # print(response.text)
+    return round(coins*1000, 2)
+
+
 try:
     # cup_of_coffee = coffee()
     # holidays = get_holidays(country="CA", year="2022")
     # weather = weather_city()
     # time = sunset_and_sunrise_time()
+    # currency_convert(coins=10)
     pass
 except Exception as e:
     print(str(e))

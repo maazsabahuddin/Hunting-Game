@@ -266,16 +266,24 @@ if __name__ == "__main__":
         print(f"Tiger health: {TIGER_HEALTH if TIGER_HEALTH > 0 else 0}")
 
         if PLAYER_HEALTH > TIGER_HEALTH or (PLAYER_HEALTH == 0 and PLAYER_HEALTH == TIGER_HEALTH):
-            print("\nHurray!! Player wins (Get 1000 coins in wallet).") \
-                if 6 < currentDateAndTime.hour < 18 else \
+            if 6 < currentDateAndTime.hour < 18:
+                print("\nHurray!! Player wins (Get 1000 coins in wallet).")
+                coins = 1000
+            else:
                 print("\nHurray!! Player wins (Get 1500 coins in wallet).")
+                coins = 1500
+
+            print("\nDo you want to convert your coins into CAD? Press any key to continue  and 'q' to quit ")
+            respond = str(input("Enter your choice: ")).upper()
+            if respond not in ["Q", "QUIT"]:
+                print(f"\nThe approximately {coins} coins value is around ${api.currency_convert(coins=coins)}.")
         else:
             print("\nPlayer loose.")
 
         view.story_end_message()
         time.sleep(2)
 
-        print("\nDo you want to play the game again? Press any key to continue and 'q' to quit ")
+        print("\nDo you want to play the game again? Press any key to continue and 'q' to quit")
         user_consent = str(input("Enter your choice: ")).upper()
 
     print("\nGame QUIT. Please come back again and earn points!\n")
