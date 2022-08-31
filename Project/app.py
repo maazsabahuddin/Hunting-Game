@@ -217,7 +217,7 @@ if __name__ == "__main__":
         print("Login Successful!")
     else:
         print("Invalid Credentials. GAME QUIT")
-        os.abort()
+        exit()
 
     currentDateAndTime = datetime.now()
     print("\nDo you want to play the game? Press any key to continue and 'q' to quit ")
@@ -236,7 +236,7 @@ if __name__ == "__main__":
             holiday_consent = str(input("Enter your choice: ")).upper()
             if holiday_consent in ["Q", "QUIT"]:
                 print("\nGame QUIT because of holiday!\n")
-                os.abort()
+                exit()
         else:
             print("\nNo Holiday Today!")
 
@@ -326,4 +326,4 @@ if __name__ == "__main__":
         user_consent = str(input("Enter your choice: ")).upper()
 
     print("\nGame QUIT. Please come back again and earn points!\n")
-    os.abort()
+    exit()
