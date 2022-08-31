@@ -1,0 +1,11 @@
+Professor has taught us with full-confidence about this Python course so far.
+What I have learnt so far is... 
+1- Classes
+2- Object Creation
+3- Loops while, for
+4- Functions arguments, kwargs
+5- Infinite loop
+6- Range of loop
+7- Conditional statements
+8- Exception handling
+9- File creation

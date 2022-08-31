@@ -1,0 +1,5 @@
+users=[
+	{'user1': {'name': 'A', 'food': 'a'}},
+	{'user2': {'name': 'B', 'food': 'b'}},
+	{'user3': {'name': 'C', 'food': 'c'}},
+]
